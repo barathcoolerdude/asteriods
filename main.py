@@ -18,16 +18,26 @@ def main():
     #to track time
     clock = pygame.time.Clock()
 
+    #creating group
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    #automaticaly adds player instance to updatable and drawable groups
+    player.containers = (updatable , drawable)
+
     while True:
         dt = clock.tick(60) / 1000
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         screen.fill("black", rect=None, special_flags=0)
-        player.update(dt)
-        player.draw(screen)
+        updatable.update(dt)
+        for draw in drawable:
+            draw.draw(screen)
         pygame.display.flip()
     
     
 if __name__ == "__main__":
     main()
+
+    
