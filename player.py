@@ -36,3 +36,12 @@ class Player(CircleShape):
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
+
+    def shoot(self):
+
+
+class Shot(CircleShape):
+    def __init__(self,x,y):
+        super().__init__(x,y,SHOT_RADIUS)
+
+

@@ -4,6 +4,7 @@
 import pygame
 from constants import *
 from player import *
+from asteroidfield import *
 
 def main():
     pygame.init()
@@ -12,8 +13,6 @@ def main():
     print("Screen height:",SCREEN_HEIGHT)
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-    #player location
-    player = Player(x = SCREEN_WIDTH / 2,y = SCREEN_HEIGHT / 2)
 
     #to track time
     clock = pygame.time.Clock()
@@ -21,16 +20,36 @@ def main():
     #creating group
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
     #automaticaly adds player instance to updatable and drawable groups
-    player.containers = (updatable , drawable)
+    Player.containers = (updatable , drawable)
+
+    #set instances for asteroids
+    Asteroid.containers = (updatable, drawable, asteroids)
+    AsteroidField.containers = (updatable,)
+
+    #create instance of asteroids and players
+    player = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
+    asteroid_field = AsteroidField()
 
     while True:
         dt = clock.tick(60) / 1000
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            
+        #check for collision
+        for asteroid in asteroids:
+            if player.check_collision(asteroid):
+                print("game over!!")
+                return #exit the game
+
+        #make the screen
         screen.fill("black", rect=None, special_flags=0)
+
+        #draw the objects in the game
         updatable.update(dt)
         for draw in drawable:
             draw.draw(screen)
