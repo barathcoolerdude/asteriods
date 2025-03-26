@@ -29,6 +29,7 @@ def main():
     #set instances for asteroids
     Asteroid.containers = (updatable, drawable, asteroids)
     AsteroidField.containers = (updatable,)
+    Shot.containers = (updatable, drawable, shots)
 
     #create instance of asteroids and players
     player = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
