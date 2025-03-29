@@ -50,6 +50,9 @@ class Player(CircleShape):
         #set the velocity: start with (0,1), rotate it, then scale it with speed
         new_shot.velocity = pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
     
+    def check_collision(self,other):
+        return self.radius + other.radius >= self.position.distance_to(other.position)
+
 class Shot(CircleShape):
     def __init__(self,x,y):
         super().__init__(x,y,SHOT_RADIUS)
@@ -60,4 +63,7 @@ class Shot(CircleShape):
 
     def draw(self, screen):
         pygame.draw.circle(screen , "white" , self.position , self.radius)
+
+    def check_collision(self,other):
+        return self.radius + other.radius >= self.position.distance_to(other.position)
 
